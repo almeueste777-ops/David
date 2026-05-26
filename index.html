@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="ro" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+
+  <!-- iOS PWA -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Psaltirea">
+  <meta name="mobile-web-app-capable" content="yes">
+
+  <!-- Theme -->
+  <meta name="theme-color" content="#3D1C02">
+  <meta name="msapplication-navbutton-color" content="#3D1C02">
+  <meta name="msapplication-starturl" content="/David/">
+
+  <!-- SEO -->
+  <meta name="description" content="Invata Psaltirea Proorocului David pe de rost. 20 catisme, 150 psalmi, sistem complet de memorare cu motivare spirituala.">
+  <meta name="keywords" content="psaltire, psalmi, ortodox, invatare, memorare, catisme, David">
+  <meta name="author" content="Psaltirea Mea">
+
+  <title>Psaltirea Mea — Proorocul David</title>
+
+  <!-- Manifest -->
+  <link rel="manifest" href="/David/manifest.json">
+
+  <!-- Apple Touch Icons -->
+  <link rel="apple-touch-icon" sizes="180x180" href="/David/icon-180.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="/David/icon-192.png">
+  <link rel="apple-touch-icon" href="/David/icon-192.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/David/icon-192.png">
+
+  <!-- Fonts preload -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&display=swap">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ═══ HEADER ═══ -->
+<header class="header">
+  <div class="header-brand">
+    <span class="title-main">Psaltirea</span>
+    <span class="title-sub">Proorocului David</span>
+  </div>
+  <div class="header-right">
+    <div class="rank-badge" onclick="navigate('profil')">
+      <span class="rank-title" id="hdr-rank-title">Novice</span>
+      <span class="rank-points" id="hdr-rank-pts">0 pts</span>
+    </div>
+    <button class="btn-icon" onclick="toggleTema()" title="Schimba tema">🕯️</button>
+  </div>
+</header>
+
+<!-- ═══ TOAST CONTAINER ═══ -->
+<div id="toast-container" class="toast-container"></div>
+
+<!-- ═══ MAIN ═══ -->
+<main class="main">
+
+  <!-- ── ACASA ── -->
+  <section id="screen-acasa" class="screen active">
+
+    <!-- Hero -->
+    <div class="acasa-hero">
+      <div class="acasa-hero-icon">✝</div>
+      <h2>Psaltirea lui David</h2>
+      <p>„Lăuda-voi pe Domnul în viața mea"</p>
+      <div class="rank-display">
+        <span class="rank-emoji" id="acasa-rank-emoji">🕯️</span>
+        <span class="rank-name" id="acasa-rank-name">Novice</span>
+        <span class="rank-pts" id="acasa-rank-pts">0 puncte · Rang 1/7</span>
+      </div>
+      <div class="mt-2">
+        <span class="streak-badge" id="acasa-streak">🔥 0 zile consecutive</span>
+      </div>
+    </div>
+
+    <!-- Catisma Zilei -->
+    <div class="catisma-azi-card">
+      <div class="catisma-azi-label">✦ Catisma Zilei după Tipic ✦</div>
+      <div class="catisma-azi-name" id="catisma-azi-name">Catisma întâi</div>
+      <div class="catisma-azi-info" id="catisma-azi-info">8 psalmi</div>
+      <button class="btn-primary" id="btn-catisma-azi">Începe Catisma Zilei</button>
+    </div>
+
+    <!-- Progres Rang -->
+    <div style="padding: 12px 16px 0;">
+      <div style="display:flex;justify-content:space-between;font-family:var(--font-body);font-size:0.7rem;color:var(--text-muted);margin-bottom:4px;">
+        <span>Progres spre rangul următor</span>
+        <span id="rank-progress-label"></span>
+      </div>
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-fill" id="rank-progress-fill" style="width:0%"></div>
+      </div>
+    </div>
+
+    <!-- Statistici -->
+    <div class="section-title">Statistici</div>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-value" id="stat-points">0</div>
+        <div class="stat-label">Puncte totale</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="stat-streak">0 zile</div>
+        <div class="stat-label">Streak curent</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="stat-psalmi">0</div>
+        <div class="stat-label">Psalmi memorati</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="stat-catisme">0/20</div>
+        <div class="stat-label">Catisme complete</div>
+      </div>
+    </div>
+
+    <!-- Badge-uri -->
+    <div class="section-title">Medalii</div>
+    <div class="badges-scroll" id="badges-scroll"></div>
+
+  </section>
+
+  <!-- ── CATISME ── -->
+  <section id="screen-catisme" class="screen">
+    <div class="section-title" style="margin-top:8px;">Cele 20 Catisme</div>
+    <div class="catisme-list" id="catisme-list">
+      <!-- rendered by JS -->
+    </div>
+  </section>
+
+  <!-- ── INVATARE / CITIRE ── -->
+  <section id="screen-invatare" class="screen">
+    <div class="reading-screen">
+
+      <!-- Psalm Header -->
+      <div class="reading-header">
+        <div class="reading-psalm-num" id="reading-psalm-num"></div>
+        <div class="reading-psalm-title" id="reading-psalm-title"></div>
+        <div class="reading-psalm-subtitle" id="reading-psalm-subtitle"></div>
+      </div>
+
+      <!-- Mode Tabs -->
+      <div class="reading-mode-tabs" id="reading-mode-tabs">
+        <button class="mode-tab active" data-mode="citire">📖 Lectio</button>
+        <button class="mode-tab" data-mode="completare">✍ Complet.</button>
+        <button class="mode-tab" data-mode="prima_litera">A… Litere</button>
+        <button class="mode-tab" data-mode="scriere">📝 Memorie</button>
+        <button class="mode-tab" data-mode="ordine">⇅ Ordine</button>
+      </div>
+
+      <!-- Verses / Content -->
+      <div class="verses-container" id="verses-container">
+        <!-- rendered by JS -->
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── ZIDUL DE INCERCARE ── -->
+  <section id="screen-zidul" class="screen">
+    <div class="section-title" style="margin-top:8px;">Zidul de Încercare</div>
+    <div style="padding:0 16px 12px;font-family:var(--font-text);font-size:0.8rem;color:var(--text-muted);font-style:italic;line-height:1.6;">
+      Versetele la care ai greșit. Trebuie repetate corect în 3 zile diferite pentru a fi șterse.
+    </div>
+    <div id="zidul-content">
+      <!-- rendered by JS -->
+    </div>
+  </section>
+
+  <!-- ── PROFIL ── -->
+  <section id="screen-profil" class="screen">
+
+    <!-- Profil header -->
+    <div class="profil-header">
+      <div class="profil-avatar" id="profil-avatar">🕯️</div>
+      <div class="profil-rank-name" id="profil-rank-name">Novice</div>
+      <div class="profil-points" id="profil-points-text">0 puncte acumulate</div>
+      <div class="mt-2">
+        <span class="streak-badge" id="profil-streak-val">🔥 0 zile consecutive</span>
+      </div>
+    </div>
+
+    <!-- Heatmap -->
+    <div class="section-title">Calendar activitate (7 săptămâni)</div>
+    <div class="heatmap-grid" id="heatmap-grid"></div>
+
+    <!-- Progres catisme -->
+    <div class="section-title">Progres pe Catisme</div>
+    <div class="catisme-progress-list" id="catisme-progress-list"></div>
+
+    <!-- Badges profil -->
+    <div class="section-title">Medalii câștigate</div>
+    <div class="badges-scroll" id="badges-profil-scroll"></div>
+
+    <!-- Setari -->
+    <div class="section-title">Setări</div>
+    <div class="settings-list">
+
+      <div class="setting-row">
+        <div>
+          <div class="setting-label">Tema Noapte (Chilie)</div>
+          <div class="setting-sub">Fundal OLED negru, text auriu</div>
+        </div>
+        <div class="toggle" onclick="toggleTema()" id="toggle-tema"></div>
+      </div>
+
+      <div class="setting-row">
+        <div>
+          <div class="setting-label">Notificări liturgice</div>
+          <div class="setting-sub">Verset zilnic la orele canonice</div>
+        </div>
+        <div class="toggle" id="toggle-notificari" onclick="toggleNotificari()"></div>
+      </div>
+
+      <div class="setting-row">
+        <div>
+          <div class="setting-label">Haptic (vibratii)</div>
+          <div class="setting-sub">Raspuns tactil la corect/gresit</div>
+        </div>
+        <div class="toggle on" id="toggle-haptic" onclick="this.classList.toggle('on')"></div>
+      </div>
+
+    </div>
+
+    <!-- Reset -->
+    <div style="padding:16px;text-align:center;">
+      <button class="btn-secondary" onclick="if(confirm('Stergi tot progresul?')){localStorage.clear();location.reload();}">
+        Resetează progresul
+      </button>
+    </div>
+
+  </section>
+
+</main>
+
+<!-- ═══ BOTTOM NAV ═══ -->
+<nav class="nav-bottom">
+  <button class="nav-item active" data-screen="acasa">
+    <span class="nav-icon">🏠</span>
+    <span>Acasă</span>
+  </button>
+  <button class="nav-item" data-screen="catisme">
+    <span class="nav-icon">📜</span>
+    <span>Catisme</span>
+  </button>
+  <button class="nav-item" data-screen="invatare">
+    <span class="nav-icon">✍️</span>
+    <span>Învătare</span>
+  </button>
+  <button class="nav-item" data-screen="zidul">
+    <span class="nav-icon">🏰</span>
+    <span>Zidul</span>
+  </button>
+  <button class="nav-item" data-screen="profil">
+    <span class="nav-icon">👤</span>
+    <span>Profil</span>
+  </button>
+</nav>
+
+<!-- ═══ OVERLAY: DIFFICULTY SELECTOR ═══ -->
+<div class="overlay" id="overlay-difficulty">
+  <div class="bottom-sheet">
+    <div class="sheet-handle"></div>
+
+    <!-- Rugaciune introductiva -->
+    <div class="rugaciune-intro">
+      <div class="rugaciune-intro-text" id="rugaciune-intro-text"></div>
+    </div>
+
+    <div class="sheet-title">Alege modul de învățare</div>
+
+    <div class="difficulty-grid">
+      <div class="diff-card selected" data-diff="verset" onclick="selectDifficulty('verset')">
+        <div class="diff-card-icon">🕯️</div>
+        <div class="diff-card-name">Verset</div>
+        <div class="diff-card-desc">Un verset pe rând, pas cu pas</div>
+      </div>
+      <div class="diff-card" data-diff="psalm" onclick="selectDifficulty('psalm')">
+        <div class="diff-card-icon">📖</div>
+        <div class="diff-card-name">Psalm</div>
+        <div class="diff-card-desc">Psalmul întreg dintr-o sesiune</div>
+      </div>
+      <div class="diff-card" data-diff="catisma" onclick="selectDifficulty('catisma')">
+        <div class="diff-card-icon">📕</div>
+        <div class="diff-card-name">Catismă</div>
+        <div class="diff-card-desc">Catisma completa fara oprire</div>
+      </div>
+      <div class="diff-card" data-diff="examen" onclick="selectDifficulty('examen')">
+        <div class="diff-card-icon">👑</div>
+        <div class="diff-card-name">Examen</div>
+        <div class="diff-card-desc">Test solemn saptamanal</div>
+      </div>
+    </div>
+
+    <button class="btn-primary" onclick="startLearning()">
+      ✦ Începe Sesiunea ✦
+    </button>
+
+    <div style="margin-top:16px;text-align:center;">
+      <button class="btn-secondary" onclick="document.getElementById('overlay-difficulty').classList.remove('open')">
+        Anulează
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ DIPLOMA MODAL ═══ -->
+<div class="diploma-modal" id="diploma-modal">
+  <div class="diploma-box">
+    <div class="diploma-icon" id="diploma-icon">🌟</div>
+    <div class="diploma-title" id="diploma-title">Rang nou!</div>
+    <div class="diploma-text" id="diploma-text"></div>
+    <div class="diploma-pts" id="diploma-pts"></div>
+    <button class="btn-primary mt-3" onclick="document.getElementById('diploma-modal').classList.remove('show')">
+      Slavă Domnului!
+    </button>
+  </div>
+</div>
+
+<!-- ═══ SCORE FEEDBACK ═══ -->
+<div class="score-feedback" id="score-feedback">
+  <div class="score-fb-icon" id="score-fb-icon">✓</div>
+  <div class="score-fb-pts" id="score-fb-pts">+10</div>
+  <div class="score-fb-msg" id="score-fb-msg"></div>
+</div>
+
+<!-- ═══ SCRIPTS ═══ -->
+<script src="app.js"></script>
+
+</body>
+</html>
