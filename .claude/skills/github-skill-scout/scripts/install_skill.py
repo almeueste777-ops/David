@@ -42,6 +42,8 @@ def main():
         print(__doc__, file=sys.stderr)
         sys.exit(1)
     repo, skill_path = args[0], args[1].strip("/")
+    if skill_path == ".":
+        skill_path = ""
     name = None
     ref = None
     i = 2
@@ -56,7 +58,7 @@ def main():
             i += 1
 
     if name is None:
-        name = skill_path.rstrip("/").split("/")[-1]
+        name = skill_path.rstrip("/").split("/")[-1] if skill_path else repo.split("/")[-1]
     if ref is None:
         ref = default_branch(repo)
 
@@ -64,7 +66,7 @@ def main():
     if tree.get("truncated"):
         print("Warning: tree response truncated by GitHub API; some files may be missing.", file=sys.stderr)
 
-    prefix = skill_path + "/"
+    prefix = skill_path + "/" if skill_path else ""
     dest_root = os.path.join(".claude", "skills", name)
     count = 0
     for item in tree.get("tree", []):
